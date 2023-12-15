@@ -2,7 +2,9 @@ import React from 'react'
 
 function HabitsPage() {
   return (
-    <div>HabitsPage</div>
+    <div>
+        <h1>HabitsPage</h1>
+        </div>
   )
 }
 
