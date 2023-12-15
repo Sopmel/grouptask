@@ -6,4 +6,4 @@ function HabitsPage() {
   )
 }
 
-export default HabitsPage
+export default HabitsPage;
