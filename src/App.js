@@ -1,8 +1,14 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return <div className="App">
-    <h2>tjohej</h2>
+    <Routes>
+      <Route path="/"/>
+      <Route path="/tasks"/>
+      <Route path="/habits" />
+      <Route path="/friends" />
+    </Routes>
   </div>;
 }
 
