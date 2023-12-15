@@ -2,7 +2,12 @@ import React from 'react';
 
 const TaskPage = () => {
     return (
-        <div>TasksPage</div>
+        <div className='container'>
+          <h1>TasksPage</h1>
+
+          <p>Add Task</p>
+          
+        </div>
       )
 
 }
