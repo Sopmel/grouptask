@@ -4,13 +4,11 @@ import HabitsPage from "./Pages/HabitsPage";
 import HomePage from "./Pages/HomePage";
 import FriendsPage from "./Pages/FriendsPage";
 
-
 function App() {
   return (
     <div className="App">
-      <h1>App.js</h1>
       <div>
-        <Link to="/habits" >Habits</Link>
+        <Link to="/habits">Habits</Link>
         <Link to="/task">Tasks</Link>
         <Link to="/friends">Friends</Link>
       </div>
