@@ -8,7 +8,6 @@ import TaskPage from "./Pages/TasksPage";
 function App() {
   return (
     <div className="App">
-      <h1>App.js</h1>
       <div>
         <Link to="/habits">Habits</Link>
         <Link to="/task">Tasks</Link>
