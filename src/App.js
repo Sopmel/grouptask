@@ -3,10 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import HabitsPage from "./Pages/HabitsPage";
 import HomePage from "./Pages/HomePage";
 import FriendsPage from "./Pages/FriendsPage";
-<<<<<<< HEAD
-=======
 import TaskPage from "./Pages/TasksPage";
->>>>>>> 8ace09a8efacf2fabe405ac0e6d225801a4a9572
 
 function App() {
   return (
