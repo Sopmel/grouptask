@@ -1,7 +1,11 @@
 import { useState } from "react";
+import UseLocalStorage from "./UseLocalStorage";
 
 const TaskCard = ({ taskObj, index, onDelete, onEdit}) => {
-  const [taskComplete, setTaskComplete] = useState(false);
+  const [taskComplete, setTaskComplete] = UseLocalStorage(
+    `taskComplete_${index}`,
+    false
+  );
   
     
     const handleDelete = () => {
