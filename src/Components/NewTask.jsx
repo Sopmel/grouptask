@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import RandomTask from "./RandomTask";
 
 const NewTask = (props) => {
-  const { showForm, title, category, handleChange, handleSave, setTitle, setDesc, setCategory} = props;
+  const { showForm, title, desc, time, category, handleChange, handleSave, setTitle, setCategory} = props;
   const [showRandomTask, setShowRandomTask] = useState(false);
   const [loadingRandomTask, setLoadingRandomTask] = useState(false);
 
@@ -26,9 +26,14 @@ const NewTask = (props) => {
     
   };
 
+  const handleClose = () => {
+    setTitle("");
+    setCategory("");
+  };
+
   return (
     showForm && (
-      <form
+      <form 
         style={{
           backgroundColor: "#1c5456",
           color: "#ffffff",
@@ -55,13 +60,14 @@ const NewTask = (props) => {
           <label style={{ width: "100px" }}>Description:</label>
           <textarea
             rows={3}
+            value={desc}
             onChange={(e) => handleChange(e, "desc")}
             name="desc"
           ></textarea>
         </div>
         <div style={{ display: "flex", marginBottom: "10px" }}>
           <label style={{ width: "100px" }}>Time: </label>
-          <select name="hours" id="hours" onChange={(e) => handleChange(e, "time")}
+          <select name="hours" id="hours" value={time} onChange={(e) => handleChange(e, "time")}
             >
       
               {Array.from({ length: 25 }, (_, index) => (
@@ -95,6 +101,7 @@ const NewTask = (props) => {
         <div style={{margin: "10px"}}>
           <button style={{marginRight: "20px", marginLeft: "20px"}} onClick={() => handleSave()}>Add</button>
           <button onClick={handleRandomTask} disabled={loadingRandomTask}>{loadingRandomTask ? 'Fetching...' : 'Random task'}</button>
+          <button style={{marginRight: "20px", marginLeft: "20px"}} onClick={handleClose}>Close</button>
         </div>
         {showRandomTask && <RandomTask onRandomTask={handleRandomTask} />}
       </form>

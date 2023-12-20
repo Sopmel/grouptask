@@ -1,6 +1,8 @@
 import React, { useState, useEffect} from "react";
 import TaskCard from "../Components/TaskCard";
 import NewTask from "../Components/NewTask";
+import TaskList from "../Components/TaskList";
+import UseLocalStorage from "../Components/UseLocalStorage";
 
 const TaskPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -71,7 +73,9 @@ const TaskPage = () => {
 // visa form
   setShowForm(true);
 
+
 } 
+console.log(taskList)
 
 const handleCategoryChange = (e) => {
   setFilteredCategory(e.target.value);
@@ -111,13 +115,6 @@ const handleSave = () => {
     });
   };
 
-  useEffect(() => {
-    const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
-    if (storedTaskList) {
-      setTaskList(storedTaskList);
-    }
-  }, []);
-
   return (
     <>
       <div
@@ -151,10 +148,12 @@ const handleSave = () => {
         handleChange={handleChange}
         title={title}
         desc={desc}
+        time={time}
         category={category}
         setTitle={setTitle}
         setDesc={setDesc}
         setCategory={setCategory}
+        setTime={setTime}
         />
        
       </div>
@@ -178,81 +177,14 @@ const handleSave = () => {
             <option value={"undefined"}>undefined</option>
       </select>
       </div>
-      <div style={{margin: "10px", color: "white", display: "flex", justifyContent: "center", gap: "20px"}}>
-        <p>Sortera:</p>
 
-        <div style={{display: "flex", justifyContent: "center"}}>
-          <p>A-Ö</p>
-        <input type="radio"
-        
-        onClick={() => {
-          const sortedTaskList = [...taskList].sort((a , b) => {
-            const titleA = a.Title.toUpperCase();
-            const titleB = b.Title.toUpperCase();
-            if (titleA < titleB) {
-              return -1;
-            }
-            if (titleA > titleB) {
-              return 1;
-            }
-            return 0;
-           
-          });
-          console.log(sortedTaskList)
-      
-         
-          setTaskList(sortedTaskList);
-          
-        }}
+        <TaskList taskList={taskList}
+        filteredCategory={filteredCategory}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        setTaskList={setTaskList}
         
         />
-        </div>
-
-        <div style={{display: "flex", justifyContent: "center"}}>
-          <p>time</p>
-        <input type="radio"
-                onClick={() => {
-                  const sortedTaskList = [...taskList].sort((a , b) => {
-                    const timeA = a.time.toUpperCase();
-                    const timeB = b.time.toUpperCase();
-                    if (timeA < timeB) {
-                      return -1;
-                    }
-                    if (timeA > timeB) {
-                      return 1;
-                    }
-                    return 0;
-                   
-                  });
-                  console.log(sortedTaskList)
-              
-                 
-                  setTaskList(sortedTaskList);
-                  
-                }}
-        />
-        </div>
-
-      </div>
-
-      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          
-          {taskList
-            .filter(task => filteredCategory === "all" || task.category === filteredCategory)
-            .map((obj, index) => (
-              
-              <TaskCard 
-              key={index} 
-              taskObj={obj} 
-              index={index} 
-              onDelete={handleDelete} 
-              onSave={handleSave} 
-              onEdit={handleEdit} 
-              />
-            ))}
-
-           
-        </div>
     </div>
     </>
   );
