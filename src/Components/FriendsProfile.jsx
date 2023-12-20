@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const FriendsProfile = ({ user }) => {
     const [imgClicked, setImgClicked] = useState(false)
     return (
-        <>
+        <div style={{padding: "10px", borderRadius: "10px", width: "20%"}}>
             <div>
                 <h3>{user.firstName} {user.lastName}</h3>
-                <img src={user.img} alt="thumbnail" onClick={()=>{setImgClicked(!imgClicked)}} />
+                <img src={user.img} alt="thumbnail" 
+                onClick={()=>{setImgClicked(!imgClicked)}} />
             </div>
+            <hr />
             {
                 imgClicked && 
                 <div>
@@ -16,7 +18,7 @@ const FriendsProfile = ({ user }) => {
                     <p>Gender: {user.gender}</p>
                 </div>
             }
-        </>
+        </div>
     )
 }
 
