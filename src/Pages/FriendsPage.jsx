@@ -1,11 +1,16 @@
-import FriendsProfile from "../Components/FriendsProfile"
 import FilterFriends from "../Components/filterFriends"
+import FriendsList from "../Components/FriendsList"
+import SortFriends from "../Components/SortFriends"
+import UseLocalStorage from "../Components/UseLocalStorage"
 import { useEffect, useState } from "react"
 
 
 const FriendsPage = () => {
     const [friends, setFriends] = useState([])
-    const [filteredFriends, setFilteredFriends] = useState([])
+    const [gender, setGender] = useState('')
+    const [minAge, setMinAge] = useState('')
+    const [maxAge, setMaxAge] = useState('');
+
 
     const addFriend = (user) => {
         setFriends([...friends,
@@ -28,67 +33,21 @@ const FriendsPage = () => {
         addFriend(json)
     }
 
-    const addFilter = (data) => {
-        setFilteredFriends(data)
-    }
-
-    const sortFriends = (key, arr, setUseState) => {
-        const sortedList = arr.sort((a, b)=> {
-            if( key === "firstName"){
-                return a.firstName.localeCompare(b.firstName)
-            } else if(key === "lastname"){
-                return a.lastName.localeCompare(b.lastName)
-            } else if(key === "age"){
-                return a.age - b.age
-            }
-        })
-        setUseState(sortedList)
-    }
-
-    useEffect(() => {
-        fetchUserData()
-    }, [])
-
     return (
         <>
-            <div>
-                <select name="sortingCriteria" id="sortingCriteria" onChange={(e)=>{
-                    filteredFriends.length === 0 ? sortFriends(e.target.value, friends, setFriends) : sortFriends(e.target.value, filteredFriends, setFilteredFriends)
-                }} >
-                    <option value="firstName">Firstname A-Z</option>
-                    <option value="lastName">Lastname A-Z</option>
-                    <option value="age">Age</option>
-                </select>
-            </div>
+            <FilterFriends friends={friends}
+                maxAge={maxAge} setMaxAge={setMaxAge}
+                minAge={minAge} setMinAge={setMinAge}
+                gender={gender} setGender={setGender} />
 
-            <FilterFriends friends={friends} setFilteredFriends={addFilter} />
+            <SortFriends friends={friends} setFriends={setFriends} />
 
-           {filteredFriends.length === 0 ? <div>
-                <h2>Friends:</h2>
-                <h3>{friends.length} st</h3>
-                {friends && friends.map((user, index) => {
-                    return (
-                        <FriendsProfile key={index} user={user} />
-                    )
-                })}
-            </div> : 
-            <div>
-                <p>Filtered Friends</p>
-                {/* <FilterFriends friends={friends} setFilteredFriends={addFilter} /> */}
-                {
-                    filteredFriends && filteredFriends.map((user, index) => {
-                        return (
-                            <FriendsProfile key={index} user={user} />
-                        )
-                    })
-                }
-            </div>}
+            <FriendsList friends={friends} maxAge={maxAge} minAge={minAge} gender={gender} />
 
             <button onClick={() => {
                 fetchUserData()
             }}
             >Add Friend</button>
-
         </>
     )
 }
