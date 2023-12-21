@@ -54,8 +54,6 @@ function HabitsPage() {
 
 
 
-
-
   return (
     <div>
         <NewHabit 
