@@ -3,25 +3,27 @@ import FriendsList from "../Components/FriendsList"
 import SortFriends from "../Components/SortFriends"
 import UseLocalStorage from "../Components/UseLocalStorage"
 import { useEffect, useState } from "react"
+import { useLocation, Link } from "react-router-dom"
 
 
-const FriendsPage = () => {
+const FriendsPage = () => {  
+
     const [friends, setFriends] = useState([])
     const [gender, setGender] = useState('')
     const [minAge, setMinAge] = useState('')
     const [maxAge, setMaxAge] = useState('');
 
 
-    const addFriend = (user) => {
+    const addRandomUser = (randomUser) => {
         setFriends([...friends,
         {
-            firstName: `${user.results[0].name.first}`,
-            lastName: `${user.results[0].name.last}`,
-            img: `${user.results[0].picture.thumbnail}`,
-            email: `${user.results[0].email}`,
-            dob: `${user.results[0].dob.date}`,
-            age: `${user.results[0].dob.age}`,
-            gender: `${user.results[0].gender}`,
+            firstName: `${randomUser.results[0].name.first}`,
+            lastName: `${randomUser.results[0].name.last}`,
+            img: `${randomUser.results[0].picture.thumbnail}`,
+            email: `${randomUser.results[0].email}`,
+            dob: `${randomUser.results[0].dob.date}`,
+            age: `${randomUser.results[0].dob.age}`,
+            gender: `${randomUser.results[0].gender}`,
             id: friends.length + 1,
         },
         ])
@@ -30,7 +32,7 @@ const FriendsPage = () => {
     const fetchUserData = async () => {
         const response = await fetch("https://randomuser.me/api")
         const json = await response.json()
-        addFriend(json)
+        addRandomUser(json)
     }
 
     return (
@@ -48,6 +50,7 @@ const FriendsPage = () => {
                 fetchUserData()
             }}
             >Add Friend</button>
+            <Link to="/" state={friends}>Home Page</Link>
         </>
     )
 }
