@@ -40,7 +40,7 @@ function HabitsPage() {
             } else if 
                 (name === "prio") {
                     setPrio(value);
-                }
+                } 
     }
 
     const saveHabit = () => {
@@ -50,12 +50,16 @@ function HabitsPage() {
             prioritet: prio,
         };
         setHabitsList([...habitsList, habitObj ]);
-    }
+        setTitle('');
+        setDate('');
+        setPrio('');
+    };
 
 
 
   return (
-    <div>
+    <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>
+        <div style={{backgroundColor: "#ffffff", paddingBottom: "1rem"}}> 
         <NewHabit 
         title={title}
         date={date} 
@@ -63,17 +67,24 @@ function HabitsPage() {
         handleChange={handleChange}
         saveHabit={saveHabit}
         />
+        </div>
 
 
-        <h2>Habitslist</h2>
-        <div>{habitsList.map((habit, index) => {
-            return <div key={index}>
-                <h4> Titel: {habit.title}</h4>
-                <h4>Antal dagar i sträck: {habit.streaks}</h4>
-                <h4>Prioritet: {habit.prioritet}</h4>
+        <h1 style={{color: "#ffffff"}}>Habit List</h1>
+        <div style={{backgroundColor: "#1c5456", display: "flex", gap: "0.5rem" }}>
+            {habitsList.map((habit, index) => {
+            return <div style={{backgroundColor: "#ffffff", padding: "10px", borderRadius: "10px", width: "20%", margin: "0,5rem"}}
+            key={index}>
+                <p> Titel: {habit.title}</p>
+                <hr />
+                <p>Antal dagar i sträck: {habit.streaks}</p>
+                <p>Prioritet: {habit.prioritet}</p>
+
+                <div style={{display: "flex", gap: "0.5rem", justifyContent: "center"}}> 
                 <button>-</button>
                 <button>+</button>
                 <button>Nollställ</button>
+                </div>
                 </div>
         })
             }</div>
