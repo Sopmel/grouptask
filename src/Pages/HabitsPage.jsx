@@ -21,6 +21,7 @@ function HabitsPage() {
         prioritet: 5
         
     }]);
+
     
     const [ newHabit, setNewHabit ] = useState();
     const [ title, setTitle ] = useState('');
@@ -55,6 +56,24 @@ function HabitsPage() {
         setPrio('');
     };
 
+    const addStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks += 1;
+        setHabitsList(updatedHabitsList);
+    };
+
+    const minusStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks -= 1;
+        setHabitsList(updatedHabitsList);
+    };
+
+    const resetStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks = 0;
+        setHabitsList(updatedHabitsList);
+      };
+
 
 
   return (
@@ -81,9 +100,9 @@ function HabitsPage() {
                 <p>Prioritet: {habit.prioritet}</p>
 
                 <div style={{display: "flex", gap: "0.5rem", justifyContent: "center"}}> 
-                <button>-</button>
-                <button>+</button>
-                <button>Nollställ</button>
+                <button onClick={() => minusStreak(index)}>-</button>
+                <button onClick={() => addStreak(index)}>+</button>
+                <button onClick={() => resetStreak(index)}>Nollställ</button>
                 </div>
                 </div>
         })
