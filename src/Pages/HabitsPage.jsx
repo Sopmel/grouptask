@@ -27,6 +27,8 @@ function HabitsPage() {
     const [ title, setTitle ] = useState('');
     const [ date, setDate ] = useState('');
     const [ prio, setPrio ] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
+    const [sortByPrio, setSortByPrio] = useState(false);
    
 
     const handleChange = (e) => {
@@ -45,6 +47,11 @@ function HabitsPage() {
     }
 
     const saveHabit = () => {
+        if (title.trim() === '' || date.trim() === '' || prio.trim() === '') {
+            setErrorMessage('Du måste fylla i alla fält!');
+            return;
+        }
+
         const habitObj = {
             title: title, 
             streaks: date, 
@@ -54,11 +61,12 @@ function HabitsPage() {
         setTitle('');
         setDate('');
         setPrio('');
+        setErrorMessage('');
     };
 
     const addStreak = (index) => {
         const updatedHabitsList = [...habitsList];
-        updatedHabitsList[index].streaks += 1;
+        updatedHabitsList[index].streaks = parseInt(updatedHabitsList[index].streaks, 10) + 1;
         setHabitsList(updatedHabitsList);
     };
 
@@ -74,6 +82,21 @@ function HabitsPage() {
         setHabitsList(updatedHabitsList);
       };
 
+      const handleSortByPrio = () => {
+        setSortByPrio(!sortByPrio);
+
+        sortList();
+      };
+
+      const sortList = () => {
+        if (sortByPrio) {
+          const sortedList = [...habitsList].sort((a, b) => b.prioritet - a.prioritet);
+          setHabitsList(sortedList);
+        } else {
+            setHabitsList(habitsList);
+          }
+      };
+
 
 
   return (
@@ -86,13 +109,28 @@ function HabitsPage() {
         handleChange={handleChange}
         saveHabit={saveHabit}
         />
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
 
 
         <h1 style={{color: "#ffffff"}}>Habit List</h1>
-        <div style={{backgroundColor: "#1c5456", display: "flex", gap: "0.5rem" }}>
+
+        {/* Sortering */}
+        <div style={{display: "flex", justifyContent: "center"}}> 
+        <p style={{color: "#ffffff"}}>Sortera prioritet: Hög-Låg</p>
+        <input type="checkbox" checked={sortByPrio} onChange={handleSortByPrio}
+        />
+         <p style={{color: "#ffffff"}}>Låg-Hög</p>
+        <input type="checkbox" 
+        
+        />
+        </div>
+
+
+        {/* Lista + nya objekt/kort */}
+        <div style={{backgroundColor: "#1c5456", display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center", alignItems: "center", margin: "0 1rem"}}>
             {habitsList.map((habit, index) => {
-            return <div style={{backgroundColor: "#ffffff", padding: "10px", borderRadius: "10px", width: "20%", margin: "0,5rem"}}
+            return <div style={{backgroundColor: "#ffffff", padding: "10px", borderRadius: "10px", width: "16%", margin: "0,5rem"}}
             key={index}>
                 <p> Titel: {habit.title}</p>
                 <hr />
@@ -107,7 +145,8 @@ function HabitsPage() {
                 </div>
         })
             }</div>
-        </div>
+            </div>
+        
   )
 }
 
