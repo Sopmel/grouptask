@@ -24,14 +24,13 @@ function HabitsPage() {
     }]);
 
     
-    const [ newHabit, setNewHabit ] = useState();
     const [ title, setTitle ] = useState('');
     const [ date, setDate ] = useState('');
     const [ prio, setPrio ] = useState();
     const [ errorMessage, setErrorMessage ] = useState('');
-    const [ sortByHighPrio, setSortByHighPrio ] = useState(false);
-    const [ sortByLowPrio, setSortByLowPrio ] = useState(false);
-   
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [ prevHabitsList, setPrevHabitsList ] = useState([]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,7 +58,16 @@ function HabitsPage() {
             streaks: date, 
             prioritet: prio,
         };
-        setHabitsList([...habitsList, habitObj ]);
+
+        const sortedList = [...habitsList].sort((a, b) => {
+            const prioHigh = a.prioritet || 0;
+            const prioLow = b.prioritet || 0;
+            return sortOrder === 'asc' ? prioLow - prioHigh : prioHigh - prioLow;
+          });
+
+        setPrevHabitsList([...habitsList]);
+
+        setHabitsList((prevHabitsList) => [...prevHabitsList, habitObj]);
         setTitle('');
         setDate('');
         setPrio('');
@@ -85,36 +93,20 @@ function HabitsPage() {
       };
 
       useEffect(() => {
-        sortList();
-      }, [sortByHighPrio, sortByLowPrio]);
+        const sortList = () => {
+            setHabitsList((prevHabitsList) => {
+                const sortedList = [...prevHabitsList].sort((a,b) => {
+                    const prioHigh = (a.prioritet || 0);
+                    const prioLow = (b.prioritet || 0);
+                    return sortOrder === 'asc' ? prioLow - prioHigh : prioHigh - prioLow;
+            });
+            return sortedList; 
+    });
 
-      const handleSortByPrio = (order) => {
-        if (order === "highToLow") {
-            setSortByHighPrio (!sortByHighPrio);
-            setSortByLowPrio(false);
-        } else if (order === "lowToHigh") {
-            setSortByLowPrio (!sortByLowPrio);
-            setSortByHighPrio(false);
-        }
-          };
+    };
+    sortList();
+    }, [sortOrder, prevHabitsList]);
 
-      const sortListByHighPrio = () => {
-        const sortedList = [...habitsList].sort((a, b) => b.prioritet - a.prioritet);
-        setHabitsList(sortedList)
-      };
-
-      const sortListByLowPrio = () => {
-        const sortedList = [...habitsList].sort((a, b) => a.prioritet - b.prioritet);
-        setHabitsList(sortedList)
-      };
-
-      const sortList = () => {
-        if (sortByHighPrio) {
-            sortListByHighPrio();
-        } else if (sortByLowPrio) {
-            sortListByLowPrio();
-        } 
-      }
 
 
   return (
@@ -136,10 +128,10 @@ function HabitsPage() {
         {/* Sortering */}
         <div style={{display: "flex", justifyContent: "center"}}> 
         <p style={{color: "#ffffff"}}>Sortera prioritet: Hög-Låg</p>
-        <input type="checkbox" defaultChecked={sortByHighPrio === "highToLow"} onChange={() => handleSortByPrio("highToLow")}
+        <input type="checkbox" checked={sortOrder === "asc"} onChange={() => setSortOrder("asc")}
         />
          <p style={{color: "#ffffff"}}>Låg-Hög</p>
-        <input type="checkbox" defaultChecked={sortByLowPrio === 'lowToHigh'} onChange={() => handleSortByPrio('lowToHigh')}
+        <input type="checkbox" checked={sortOrder === "desc"} onChange={() => setSortOrder("desc")}
         
         />
         </div>
