@@ -1,6 +1,4 @@
 import React from 'react';
-import { useState } from "react";
-import { Row } from 'react-bootstrap';
 
 
 function NewHabit({handleChange, saveHabit, title, date, prio}) {
