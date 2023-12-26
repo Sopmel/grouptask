@@ -1,6 +1,7 @@
 import React from 'react'
 import NewHabit from '../Components/NewHabit';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 function HabitsPage() {
     let [habitsList, setHabitsList] = useState([
@@ -27,8 +28,9 @@ function HabitsPage() {
     const [ title, setTitle ] = useState('');
     const [ date, setDate ] = useState('');
     const [ prio, setPrio ] = useState();
-    const [errorMessage, setErrorMessage] = useState('');
-    const [sortByPrio, setSortByPrio] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState('');
+    const [ sortByHighPrio, setSortByHighPrio ] = useState(false);
+    const [ sortByLowPrio, setSortByLowPrio ] = useState(false);
    
 
     const handleChange = (e) => {
@@ -82,21 +84,37 @@ function HabitsPage() {
         setHabitsList(updatedHabitsList);
       };
 
-      const handleSortByPrio = () => {
-        setSortByPrio(!sortByPrio);
-
+      useEffect(() => {
         sortList();
+      }, [sortByHighPrio, sortByLowPrio]);
+
+      const handleSortByPrio = (order) => {
+        if (order === "highToLow") {
+            setSortByHighPrio (!sortByHighPrio);
+            setSortByLowPrio(false);
+        } else if (order === "lowToHigh") {
+            setSortByLowPrio (!sortByLowPrio);
+            setSortByHighPrio(false);
+        }
+          };
+
+      const sortListByHighPrio = () => {
+        const sortedList = [...habitsList].sort((a, b) => b.prioritet - a.prioritet);
+        setHabitsList(sortedList)
+      };
+
+      const sortListByLowPrio = () => {
+        const sortedList = [...habitsList].sort((a, b) => a.prioritet - b.prioritet);
+        setHabitsList(sortedList)
       };
 
       const sortList = () => {
-        if (sortByPrio) {
-          const sortedList = [...habitsList].sort((a, b) => b.prioritet - a.prioritet);
-          setHabitsList(sortedList);
-        } else {
-            setHabitsList(habitsList);
-          }
-      };
-
+        if (sortByHighPrio) {
+            sortListByHighPrio();
+        } else if (sortByLowPrio) {
+            sortListByLowPrio();
+        } 
+      }
 
 
   return (
@@ -118,10 +136,10 @@ function HabitsPage() {
         {/* Sortering */}
         <div style={{display: "flex", justifyContent: "center"}}> 
         <p style={{color: "#ffffff"}}>Sortera prioritet: Hög-Låg</p>
-        <input type="checkbox" checked={sortByPrio} onChange={handleSortByPrio}
+        <input type="checkbox" defaultChecked={sortByHighPrio === "highToLow"} onChange={() => handleSortByPrio("highToLow")}
         />
          <p style={{color: "#ffffff"}}>Låg-Hög</p>
-        <input type="checkbox" 
+        <input type="checkbox" defaultChecked={sortByLowPrio === 'lowToHigh'} onChange={() => handleSortByPrio('lowToHigh')}
         
         />
         </div>
