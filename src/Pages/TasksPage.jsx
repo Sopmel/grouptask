@@ -1,8 +1,9 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 import TaskCard from "../Components/TaskCard";
+import CompleteTaskCard from "../Components/CompleteTaskCard";
 import NewTask from "../Components/NewTask";
 import TaskList from "../Components/TaskList";
-import UseLocalStorage from "../Components/UseLocalStorage";
+// import UseLocalStorage from "../Components/UseLocalStorage";
 
 const TaskPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -12,10 +13,71 @@ const TaskPage = () => {
   const [category, setCategory] = useState("undefined");
   const [filteredCategory, setFilteredCategory] = useState("all");
   const [edit, setEdit] = useState(null);
+  const [editedTask, setEditedTask] = useState(null);
   const [taskList, setTaskList] = useState(() => {
     const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
     return storedTaskList || [];
   });
+  const [completedTasksList, setCompletedTasksList] = useState(() => {
+    const storedCompletedTasksList = JSON.parse(localStorage.getItem("completedTasksList"));
+    return storedCompletedTasksList || [];
+  });
+
+  const handleCheckboxChecked = (index) => {
+    setTaskList((prevTaskList) => {
+      const updatedTaskList = [...prevTaskList];
+      const taskToMove = updatedTaskList[index];
+  
+      // tar bort
+      updatedTaskList.splice(index, 1);
+  
+      //local storage
+      localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
+  
+      setCompletedTasksList((prevCompletedTasksList) => {
+        const isTaskAlreadyInList = prevCompletedTasksList.some((task) => task.title === taskToMove.title);
+  
+        // kollar efte kopior först
+        if (!isTaskAlreadyInList) {
+          const updatedCompletedTasksList = [...prevCompletedTasksList, taskToMove];
+          localStorage.setItem("completedTasksList", JSON.stringify(updatedCompletedTasksList));
+          return updatedCompletedTasksList;
+        }
+  
+        return prevCompletedTasksList;
+      });
+  
+      return updatedTaskList;
+    });
+  };
+  
+  const handleCheckboxUnchecked = (index) => {
+    setCompletedTasksList((prevCompletedTasksList) => {
+      const updatedCompletedTasksList = [...prevCompletedTasksList];
+      const taskToMoveBack = updatedCompletedTasksList[index];
+  
+      
+      updatedCompletedTasksList.splice(index, 1);
+  
+      //local storage
+      localStorage.setItem("completedTasksList", JSON.stringify(updatedCompletedTasksList));
+  
+      setTaskList((prevTaskList) => {
+        const isTaskAlreadyInList = prevTaskList.some((task) => task.title === taskToMoveBack.title);
+  
+        // kollar efter kopior
+        if (!isTaskAlreadyInList) {
+          const updatedTaskList = [...prevTaskList, taskToMoveBack];
+          localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
+          return updatedTaskList;
+        }
+  
+        return prevTaskList;
+      });
+  
+      return updatedCompletedTasksList;
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +97,7 @@ const TaskPage = () => {
     if (edit !== null) {
       setTaskList((prevTaskList) => {
         const updatedTaskList = [...prevTaskList];
-        updatedTaskList[edit] = taskObj; // Replace existing task
+        updatedTaskList[edit] = taskObj;
         localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
         return updatedTaskList;
       });
@@ -59,23 +121,21 @@ const TaskPage = () => {
 };
 
 
-  const handleEdit = (index) => {
-    const taskEdit = taskList[index];
-    
-  
-//uppdatera
-  setTitle(taskEdit.Title);
-  setDesc(taskEdit.desc);
-  setTime(taskEdit.time);
-  setCategory(taskEdit.category);
+const handleEdit = (index) => {
+  const taskToEdit = taskList[index]
 
-  setEdit(index);
-// visa form
-  setShowForm(true);
+  if (taskToEdit) {
+    const {title, desc, time, category } = taskToEdit;
+    setTitle(title);
+    setDesc(desc);
+    setTime(time);
+    setCategory(category);
+    setEdit(index);
+    setEditedTask(taskToEdit);
+    setShowForm(true);
+  }
+}; 
 
-
-} 
-console.log(taskList)
 
 const handleCategoryChange = (e) => {
   setFilteredCategory(e.target.value);
@@ -84,36 +144,50 @@ const handleCategoryChange = (e) => {
 
 const handleSave = () => {
   const taskObj = {
-    Title: title,
+    title: title,
     desc: desc,
     time: time,
     category: category,
+    completed: edit !== null ? taskList[edit].completed : false
   };
 
   if (edit !== null) {
-   
     saveTask(taskObj, edit);
   } else {
-   
     saveTask(taskObj);
   }
 
-  
   setTitle('');
   setDesc('');
   setTime('');
-  setCategory(''); 
+  setCategory('');
 };
+console.log(taskList)
+console.log(completedTasksList)
   
+const handleCompleteDelete = (index) => {
+  setCompletedTasksList((prevCompletedTasksList) => {
+    const updatedCompletedTasksList = [...prevCompletedTasksList];
+    updatedCompletedTasksList.splice(index, 1);
 
-  const handleDelete = (index) => {
-    setTaskList((prevTaskList) => {
-      const updatedTaskList = [...prevTaskList];
-      updatedTaskList.splice(index, 1);
-      localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
-      return updatedTaskList;
-    });
-  };
+    localStorage.setItem(
+      "completedTasksList",
+      JSON.stringify(updatedCompletedTasksList)
+    );
+
+    return updatedCompletedTasksList;
+  });
+};
+
+const handleDelete = (index) => {
+  setTaskList((prevTaskList) => {
+    const updatedTaskList = [...prevTaskList];
+    updatedTaskList.splice(index, 1);
+
+    localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
+    return updatedTaskList;
+  });
+};
 
   return (
     <>
@@ -159,10 +233,9 @@ const handleSave = () => {
       </div>
 
       <div style={{ backgroundColor: "#1c5456", padding: "10px" }}>
-      
-      <div style={{margin: "20px"}}>
-      <h1 style={{ color: "#ffffff" }}>Task List</h1>
-      <select onChange={handleCategoryChange} value={filteredCategory}>
+        <div style={{ margin: "20px" }}>
+          <h1 style={{ color: "#ffffff" }}>Task List</h1>
+          <select onChange={handleCategoryChange} value={filteredCategory}>
             <option value="all">All</option>
             <option value={"social"}>social</option>
             <option value={"busywork"}>busywork</option>
@@ -177,15 +250,51 @@ const handleSave = () => {
             <option value={"undefined"}>undefined</option>
       </select>
       </div>
-
-        <TaskList taskList={taskList}
-        filteredCategory={filteredCategory}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        setTaskList={setTaskList}
-        
+      <TaskList
+          taskList={taskList}
+          filteredCategory={filteredCategory}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          setTaskList={setTaskList}
+          
         />
-    </div>
+
+<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          {taskList
+            .filter(
+              (task) =>
+                !task.completed &&
+                (filteredCategory === "all" || task.category === filteredCategory)
+            )
+            .map((obj, index) => (
+              <TaskCard
+                key={index}
+                taskObj={obj}
+                index={index}
+                onDelete={handleDelete}
+                onEdit={() => handleEdit(index)}
+                onCheckboxChange={() => handleCheckboxChecked(index)}
+              />
+            ))}
+        </div>
+
+        {completedTasksList.length > 0 && (
+          <div style={{ backgroundColor: "#1c5456", padding: "10px", marginTop: "20px" }}>
+            <h1 style={{ color: "#ffffff" }}>Completed Tasks</h1>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              {completedTasksList.map((obj, index) => (
+              <CompleteTaskCard
+              key={index}
+              taskObj={obj}
+              index={index}
+              onCompleteDelete={handleCompleteDelete}
+              onCheckboxChange={() => handleCheckboxUnchecked(index)}
+            />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
