@@ -43,7 +43,6 @@ const NewTask = (props) => {
           alignItems: "center",
           justifyContent: "center",
           border: "1px solid #1c5456",
-          padding: "10px",
           marginTop: "10px"
         }}
       >
