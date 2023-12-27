@@ -109,8 +109,6 @@ function HabitsPage() {
     sortList();
     }, [sortOrder, prevHabitsList]);
     
-    
-    const topPrio = ([...habitsList]);
 
   return (
     <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>
@@ -159,7 +157,7 @@ function HabitsPage() {
             }</div>
            <div> 
             {/* <TopHabits topPrio={topPrio} /> */}
-            <Link style={{color: "#ffffff"}} to="/" state={topPrio}>Home Page</Link>
+            <Link style={{color: "#ffffff"}} to="/" state={habitsList}>Home Page</Link>
             
            </div>
             </div>

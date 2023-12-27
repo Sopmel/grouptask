@@ -10,12 +10,24 @@ function HomePage() {
  
   const location = useLocation();
   console.log(location.state);
-  
    
   useEffect(()=>{
     console.log(location.state)
     renderFiveFriends(location.state)
   }, [])
+
+  // useEffect(() => {
+  //   // Check if 'friends' is available in location state
+  //   if (location.state && location.state.friends) {
+  //     renderFiveFriends(location.state.friends);
+  //     console.log(location.state.friends);
+  //   }
+  
+  //   // Check if 'habits' is available in location state
+  //   if (location.state && location.state.habits) {
+  //     renderTopHabits(location.state.habits);
+  //   }
+  // }, [location.state]);
 
   const renderFiveFriends = (arr) => {
     let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
