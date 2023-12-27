@@ -25,7 +25,7 @@ function HomePage() {
         <div className={Style.habitsDiv}>Habits</div>
         <div className={Style.taskDiv}>Tasks</div>
         <div className={Style.friendsDiv}>
-          <FriendsList friends={latestFriends} />
+          <FriendsList fromPage={"HomePage"} friends={latestFriends} />
           <Link to="/friends" >see Friends</Link>
         </div>
       </div>

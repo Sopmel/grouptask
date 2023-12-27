@@ -46,7 +46,7 @@ const FriendsPage = () => {
     return (
         <>
             <div>
-                <FilterFriends friends={friends}
+                <FilterFriends friends={friends} 
                     maxAge={maxAge} setMaxAge={setMaxAge}
                     minAge={minAge} setMinAge={setMinAge}
                     gender={gender} setGender={setGender}
@@ -55,8 +55,8 @@ const FriendsPage = () => {
                 <SortFriends friends={friends} setFriends={setFriends} />
             </div>
 
-            <FriendsList friends={friends} maxAge={maxAge}
-                minAge={minAge} gender={gender}
+            <FriendsList fromPage={"FriendsPage"} friends={friends}
+                maxAge={maxAge} minAge={minAge} gender={gender}
                 deleteFriend={deleteFriend}
             />
 
