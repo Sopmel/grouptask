@@ -1,15 +1,15 @@
-import styling from "./FilterFriendsStyle.module.css"
+import style from "./FriendsStyle.module.css"
 
 const FilterFriends = (props) => {
 
     const { friends, minAge, setMinAge, maxAge, setMaxAge, gender, setGender } = props
 
-    //Varning något om att ett infinite värde inte kan användas? 
+    //Varning, något om att ett infinite värde inte kan användas? 
     const minAgeInArray = Math.min(...friends.map(user => user.age));
     const maxAgeInArray = Math.max(...friends.map(user => user.age))
 
     return (
-        <>
+        <div>
             <label>
                 Gender:
                 <select
@@ -22,18 +22,7 @@ const FilterFriends = (props) => {
             </label>
 
             <label>
-                Max Age:
-                <input
-                    type="number"
-                    min={minAgeInArray}
-                    max={maxAgeInArray}
-                    value={maxAge}
-                    onChange={e => setMaxAge(e.target.value)}
-                />
-            </label>
-
-            <label>
-                Minimun Age:
+                Min Age:
                 <input
                     type="number"
                     min={minAgeInArray}
@@ -42,7 +31,18 @@ const FilterFriends = (props) => {
                     onChange={e => setMinAge(e.target.value)}
                 />
             </label>
-        </>
+
+            <label>
+                Max Age:
+                <input
+                    type="number"
+                    min={minAgeInArray}
+                    max={maxAgeInArray}
+                    value={maxAge}
+                    onChange={e => setMaxAge(e.target.value)}
+                />
+             </label>
+        </div>
     )
 }
 

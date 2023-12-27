@@ -1,3 +1,5 @@
+import style from "./FriendsStyle.module.css"
+
 const SortFriends = ({friends, setFriends}) => {
 
     const sortFriends = (key) => {
