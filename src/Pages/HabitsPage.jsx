@@ -1,6 +1,8 @@
 import React from 'react'
 import NewHabit from '../Components/NewHabit';
 import { useState, useEffect } from "react";
+import TopHabits from '../Components/TopHabits';
+import { Link } from "react-router-dom";
 
 
 function HabitsPage() {
@@ -28,9 +30,9 @@ function HabitsPage() {
     const [ date, setDate ] = useState('');
     const [ prio, setPrio ] = useState();
     const [ errorMessage, setErrorMessage ] = useState('');
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [ sortOrder, setSortOrder ] = useState('asc');
     const [ prevHabitsList, setPrevHabitsList ] = useState([]);
-
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -106,8 +108,9 @@ function HabitsPage() {
     };
     sortList();
     }, [sortOrder, prevHabitsList]);
-
-
+    
+    
+    const topPrio = ([...habitsList]);
 
   return (
     <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>
@@ -136,7 +139,6 @@ function HabitsPage() {
         />
         </div>
 
-
         {/* Lista + nya objekt/kort */}
         <div style={{backgroundColor: "#1c5456", display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center", alignItems: "center", margin: "0 1rem"}}>
             {habitsList.map((habit, index) => {
@@ -155,8 +157,13 @@ function HabitsPage() {
                 </div>
         })
             }</div>
+           <div> 
+            {/* <TopHabits topPrio={topPrio} /> */}
+            <Link style={{color: "#ffffff"}} to="/" state={topPrio}>Home Page</Link>
+            
+           </div>
             </div>
-        
+         
   )
 }
 
