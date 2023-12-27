@@ -2,34 +2,53 @@ import React from 'react'
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import FriendsList from '../Components/FriendsList';
-import Style from "../Components/FriendsStyle.module.css"
+import TopHabits from '../Components/TopHabits';
 
 function HomePage() {
   const [latestFriends, setLatestFriends] = useState([]);
-
+  const [ topHabits, setTopHabits ] = useState([]);
+ 
   const location = useLocation();
-
-  useEffect(() => {
+  console.log(location.state);
+  
+   
+  useEffect(()=>{
     console.log(location.state)
-    location.state && renderFiveFriends(location.state)
+    renderFiveFriends(location.state)
   }, [])
 
   const renderFiveFriends = (arr) => {
     let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
     setLatestFriends(slicedArray)
-  }
+  } 
+
+  // HABITS
+  useEffect(()=>{
+    
+    renderTopHabits(location.state)
+  }, [])
+
+  const renderTopHabits = (topH) => {
+    console.log(topH);
+    let slicedArrayH = topH.slice(Math.max(topH.length - 3, 0))
+    setTopHabits(slicedArrayH);
+  } 
+ 
 
   return (
     <>
-      <div className={Style.listsContainer}>
-        <div className={Style.habitsDiv}>Habits</div>
-        <div className={Style.taskDiv}>Tasks</div>
-        <div className={Style.friendsDiv}>
-          <FriendsList fromPage={"HomePage"} friends={latestFriends} />
-          <Link to="/friends" >see Friends</Link>
-        </div>
+      <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>HomePage
+      <FriendsList friends={latestFriends} />
+      <Link to="/friends" state={{ friends: renderFiveFriends }} >
+        see Friends
+      </Link>
+      <hr />
+      <h3 style={{color: "#ffffff"}}>Top 3 Habits</h3>
+      <TopHabits habits={topHabits}/>
+      <Link style={{color: "#ffffff"}} to="/habits" state={{habits: renderTopHabits}} >
+        see all Habits
+      </Link>
       </div>
-
     </>
   )
 }
