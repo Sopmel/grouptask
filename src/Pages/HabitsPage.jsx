@@ -1,6 +1,7 @@
 import React from 'react'
 import NewHabit from '../Components/NewHabit';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 function HabitsPage() {
     let [habitsList, setHabitsList] = useState([
@@ -21,12 +22,15 @@ function HabitsPage() {
         prioritet: 5
         
     }]);
+
     
-    const [ newHabit, setNewHabit ] = useState();
     const [ title, setTitle ] = useState('');
     const [ date, setDate ] = useState('');
     const [ prio, setPrio ] = useState();
-   
+    const [ errorMessage, setErrorMessage ] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [ prevHabitsList, setPrevHabitsList ] = useState([]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,16 +48,64 @@ function HabitsPage() {
     }
 
     const saveHabit = () => {
+        if (title.trim() === '' || date.trim() === '' || prio.trim() === '') {
+            setErrorMessage('Du måste fylla i alla fält!');
+            return;
+        }
+
         const habitObj = {
             title: title, 
             streaks: date, 
             prioritet: prio,
         };
-        setHabitsList([...habitsList, habitObj ]);
+
+        const sortedList = [...habitsList].sort((a, b) => {
+            const prioHigh = a.prioritet || 0;
+            const prioLow = b.prioritet || 0;
+            return sortOrder === 'asc' ? prioLow - prioHigh : prioHigh - prioLow;
+          });
+
+        setPrevHabitsList([...habitsList]);
+
+        setHabitsList((prevHabitsList) => [...prevHabitsList, habitObj]);
         setTitle('');
         setDate('');
         setPrio('');
+        setErrorMessage('');
     };
+
+    const addStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks = parseInt(updatedHabitsList[index].streaks, 10) + 1;
+        setHabitsList(updatedHabitsList);
+    };
+
+    const minusStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks -= 1;
+        setHabitsList(updatedHabitsList);
+    };
+
+    const resetStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks = 0;
+        setHabitsList(updatedHabitsList);
+      };
+
+      useEffect(() => {
+        const sortList = () => {
+            setHabitsList((prevHabitsList) => {
+                const sortedList = [...prevHabitsList].sort((a,b) => {
+                    const prioHigh = (a.prioritet || 0);
+                    const prioLow = (b.prioritet || 0);
+                    return sortOrder === 'asc' ? prioLow - prioHigh : prioHigh - prioLow;
+            });
+            return sortedList; 
+    });
+
+    };
+    sortList();
+    }, [sortOrder, prevHabitsList]);
 
 
 
@@ -67,13 +119,28 @@ function HabitsPage() {
         handleChange={handleChange}
         saveHabit={saveHabit}
         />
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
 
 
         <h1 style={{color: "#ffffff"}}>Habit List</h1>
-        <div style={{backgroundColor: "#1c5456", display: "flex", gap: "0.5rem" }}>
+
+        {/* Sortering */}
+        <div style={{display: "flex", justifyContent: "center"}}> 
+        <p style={{color: "#ffffff"}}>Sortera prioritet: Hög-Låg</p>
+        <input type="checkbox" checked={sortOrder === "asc"} onChange={() => setSortOrder("asc")}
+        />
+         <p style={{color: "#ffffff"}}>Låg-Hög</p>
+        <input type="checkbox" checked={sortOrder === "desc"} onChange={() => setSortOrder("desc")}
+        
+        />
+        </div>
+
+
+        {/* Lista + nya objekt/kort */}
+        <div style={{backgroundColor: "#1c5456", display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center", alignItems: "center", margin: "0 1rem"}}>
             {habitsList.map((habit, index) => {
-            return <div style={{backgroundColor: "#ffffff", padding: "10px", borderRadius: "10px", width: "20%", margin: "0,5rem"}}
+            return <div style={{backgroundColor: "#ffffff", padding: "10px", borderRadius: "10px", width: "16%", margin: "0,5rem"}}
             key={index}>
                 <p> Titel: {habit.title}</p>
                 <hr />
@@ -81,14 +148,15 @@ function HabitsPage() {
                 <p>Prioritet: {habit.prioritet}</p>
 
                 <div style={{display: "flex", gap: "0.5rem", justifyContent: "center"}}> 
-                <button>-</button>
-                <button>+</button>
-                <button>Nollställ</button>
+                <button onClick={() => minusStreak(index)}>-</button>
+                <button onClick={() => addStreak(index)}>+</button>
+                <button onClick={() => resetStreak(index)}>Nollställ</button>
                 </div>
                 </div>
         })
             }</div>
-        </div>
+            </div>
+        
   )
 }
 
