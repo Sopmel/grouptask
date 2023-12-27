@@ -10,7 +10,7 @@ function NewHabit({handleChange, saveHabit, title, date, prio}) {
         justifyContent: "center", 
         flexDirection: "column", 
         alignItems: "center"}}> 
-    <h2>New Habit</h2>
+    <h2 className='page-header'>New Habit</h2>
     <div style={{
         display: "flex", 
         gap: "0.5rem", 

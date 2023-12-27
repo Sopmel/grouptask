@@ -124,7 +124,8 @@ function HabitsPage() {
         </div>
 
 
-        <h1 style={{color: "#ffffff"}}>Habit List</h1>
+        <p className='underrubrik-text'>Habit-List</p>
+        <hr style={{maxWidth: "10rem"}} />
 
         {/* Sortering */}
         <div style={{display: "flex", justifyContent: "center"}}> 

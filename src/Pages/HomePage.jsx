@@ -49,15 +49,17 @@ function HomePage() {
 
   return (
     <>
-      <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>HomePage
+      <div style={{backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem"}}>
+        <hr />
+      <p className='underrubrik-text'>5 vänner</p>
       <FriendsList friends={latestFriends} />
-      <Link to="/friends" state={{ friends: renderFiveFriends }} >
-        see Friends
+      <Link className='link-style' to="/friends" state={{ friends: renderFiveFriends }} >
+        see all Friends
       </Link>
       <hr />
-      <h3 style={{color: "#ffffff"}}>Top 3 Habits</h3>
+      <p className='underrubrik-text'>Top 3 Habits</p>
       <TopHabits habits={topHabits}/>
-      <Link style={{color: "#ffffff"}} to="/habits" state={{habits: renderTopHabits}} >
+      <Link className='link-style' to="/habits" state={{habits: renderTopHabits}} >
         see all Habits
       </Link>
       </div>
