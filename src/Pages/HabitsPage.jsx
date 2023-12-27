@@ -109,8 +109,6 @@ function HabitsPage() {
     sortList();
     }, [sortOrder, prevHabitsList]);
     
-    
-    const topPrio = ([...habitsList]);
 
   return (
     <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>
@@ -126,7 +124,8 @@ function HabitsPage() {
         </div>
 
 
-        <h1 style={{color: "#ffffff"}}>Habit List</h1>
+        <p className='underrubrik-text'>Habit-List</p>
+        <hr style={{maxWidth: "10rem"}} />
 
         {/* Sortering */}
         <div style={{display: "flex", justifyContent: "center"}}> 
@@ -159,7 +158,7 @@ function HabitsPage() {
             }</div>
            <div> 
             {/* <TopHabits topPrio={topPrio} /> */}
-            <Link style={{color: "#ffffff"}} to="/" state={topPrio}>Home Page</Link>
+            <Link style={{color: "#ffffff"}} to="/" state={habitsList}>Home Page</Link>
             
            </div>
             </div>

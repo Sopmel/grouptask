@@ -8,10 +8,37 @@ import TaskPage from "./Pages/TasksPage";
 function App() {
   return (
     <div className="App">
-      <div>
-        <Link to="/habits">Habits</Link>
-        <Link to="/task">Tasks</Link>
-        <Link to="/friends">Friends</Link>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "#1c5456",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "150px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            gap: "2rem",
+            // padding: "20px",
+          }}
+        >
+          <Link className="header-text" to="/habits">
+            Habits
+          </Link>
+          <hr />
+          <Link className="header-text" to="/task">
+            Tasks
+          </Link>
+          <hr />
+          <Link className="header-text" to="/friends">
+            Friends
+          </Link>
+        </div>
       </div>
       <Routes>
         <Route path="/" element={<HomePage />} />
