@@ -4,17 +4,9 @@ import { Link, useLocation } from "react-router-dom"
 import FriendsList from '../Components/FriendsList';
 import TopHabits from '../Components/TopHabits';
 
-function HomePage() {
+function HomePage(props) {
   const [latestFriends, setLatestFriends] = useState([]);
-  const [ topHabits, setTopHabits ] = useState([]);
- 
-  const location = useLocation();
-  console.log(location.state);
-   
-  useEffect(()=>{
-    console.log(location.state)
-    renderFiveFriends(location.state)
-  }, [])
+  const [topHabits, setTopHabits] = useState([]);
 
   // useEffect(() => {
   //   // Check if 'friends' is available in location state
@@ -30,38 +22,29 @@ function HomePage() {
   // }, [location.state]);
 
   const renderFiveFriends = (arr) => {
-    let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
+    let sortedArray = [...arr].sort((a, b) => { return a.id - b.id })
+    let slicedArray = sortedArray.slice(Math.max(arr.length - 5, 0))
     setLatestFriends(slicedArray)
-  } 
+  }
 
-  // HABITS
-  useEffect(()=>{
-    
-    renderTopHabits(location.state)
+  useEffect(() => {
+    renderFiveFriends(props.friends)
+    renderTopHabits(props.habitsList)
   }, [])
 
   const renderTopHabits = (topH) => {
-    console.log(topH);
-    let slicedArrayH = topH.slice(Math.max(topH.length - 3, 0))
+    let sortedArray = [...topH].sort((a, b) => { return a.prioritet - b.prioritet })
+    let slicedArrayH = sortedArray.slice(Math.max(topH.length - 3, 0))
     setTopHabits(slicedArrayH);
   } 
- 
 
   return (
     <>
-      <div style={{backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem"}}>
+      <div style={{ backgroundColor: "#1c5456", paddingBottom: "2rem" }}>HomePage
+        <FriendsList friends={latestFriends} />
         <hr />
-      <p className='underrubrik-text'>5 vänner</p>
-      <FriendsList friends={latestFriends} />
-      <Link className='link-style' to="/friends" state={{ friends: renderFiveFriends }} >
-        see all Friends
-      </Link>
-      <hr />
-      <p className='underrubrik-text'>Top 3 Habits</p>
-      <TopHabits habits={topHabits}/>
-      <Link className='link-style' to="/habits" state={{habits: renderTopHabits}} >
-        see all Habits
-      </Link>
+        <h3 style={{ color: "#ffffff" }}>Top 3 Habits</h3>
+        <TopHabits habits={topHabits} />
       </div>
     </>
   )
