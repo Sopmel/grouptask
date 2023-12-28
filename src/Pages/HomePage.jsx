@@ -8,18 +8,6 @@ function HomePage(props) {
   const [latestFriends, setLatestFriends] = useState([]);
   const [topHabits, setTopHabits] = useState([]);
 
-  // useEffect(() => {
-  //   // Check if 'friends' is available in location state
-  //   if (location.state && location.state.friends) {
-  //     renderFiveFriends(location.state.friends);
-  //     console.log(location.state.friends);
-  //   }
-  
-  //   // Check if 'habits' is available in location state
-  //   if (location.state && location.state.habits) {
-  //     renderTopHabits(location.state.habits);
-  //   }
-  // }, [location.state]);
 
   const renderFiveFriends = (arr) => {
     let sortedArray = [...arr].sort((a, b) => { return a.id - b.id })
@@ -40,11 +28,18 @@ function HomePage(props) {
 
   return (
     <>
-      <div style={{ backgroundColor: "#1c5456", paddingBottom: "2rem" }}>HomePage
+      <div style={{ backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem" }}>
+      <hr />
         <FriendsList friends={latestFriends} />
+        <Link className='link-style' to="/friends">
+        see all Friends
+      </Link>
         <hr />
-        <h3 style={{ color: "#ffffff" }}>Top 3 Habits</h3>
+        <p className='underrubrik-text'>Top 3 Habits</p>
         <TopHabits habits={topHabits} />
+        <Link className='link-style' to="/habits" >
+        see all Habits
+      </Link>
       </div>
     </>
   )
