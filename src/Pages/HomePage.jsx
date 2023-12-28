@@ -21,8 +21,6 @@ function HomePage() {
       renderFiveLatestTasks(location.state.taskList);
     }
   }, [location.state]);
-=======
->>>>>>> 7b7e546a42270baf3b67ea89874fff2b07840f96
    
   useEffect(()=>{
     if (location.state && location.state.FriendsList){
