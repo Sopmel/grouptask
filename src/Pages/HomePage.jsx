@@ -14,12 +14,15 @@ function HomePage() {
 
   const location = useLocation();
   console.log(location.state);
+<<<<<<< HEAD
   
   useEffect(() => {
     if (location.state && location.state.taskList) {
       renderFiveLatestTasks(location.state.taskList);
     }
   }, [location.state]);
+=======
+>>>>>>> 7b7e546a42270baf3b67ea89874fff2b07840f96
    
   useEffect(()=>{
     if (location.state && location.state.FriendsList){
@@ -32,6 +35,19 @@ function HomePage() {
     setLatestTasks(slicedTasks);
     console.log( latestTasks)
   };
+
+  // useEffect(() => {
+  //   // Check if 'friends' is available in location state
+  //   if (location.state && location.state.friends) {
+  //     renderFiveFriends(location.state.friends);
+  //     console.log(location.state.friends);
+  //   }
+  
+  //   // Check if 'habits' is available in location state
+  //   if (location.state && location.state.habits) {
+  //     renderTopHabits(location.state.habits);
+  //   }
+  // }, [location.state]);
 
   const renderFiveFriends = (arr) => {
     let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
@@ -54,15 +70,17 @@ function HomePage() {
 
   return (
     <>
-      <div style={{backgroundColor: "#1c5456", paddingBottom: "2rem"}}>HomePage
+      <div style={{backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem"}}>
+        <hr />
+      <p className='underrubrik-text'>5 vänner</p>
       <FriendsList friends={latestFriends} />
-      <Link to="/friends" state={{ friends: renderFiveFriends }} >
-        see Friends
+      <Link className='link-style' to="/friends" state={{ friends: renderFiveFriends }} >
+        see all Friends
       </Link>
       <hr />
-      <h3 style={{color: "#ffffff"}}>Top 3 Habits</h3>
+      <p className='underrubrik-text'>Top 3 Habits</p>
       <TopHabits habits={topHabits}/>
-      <Link style={{color: "#ffffff"}} to="/habits" state={{habits: renderTopHabits}} >
+      <Link className='link-style' to="/habits" state={{habits: renderTopHabits}} >
         see all Habits
       </Link>
       </div>
