@@ -28,7 +28,7 @@ function HomePage(props) {
   return (
     <>
       <div style={{ backgroundColor: "#1c5456", paddingBottom: "2rem" }}>HomePage
-        <FriendsList friends={latestFriends} />
+        <FriendsList friends={latestFriends} fromPage={"HomePage"} />
         <hr />
         <h3 style={{ color: "#ffffff" }}>Top 3 Habits</h3>
         <TopHabits habits={topHabits} />

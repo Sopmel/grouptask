@@ -14,7 +14,6 @@ const FriendsPage = ({friends, setFriends, fetchData, deleteFriend}) => {
     const [minAge, setMinAge] = useState('')
     const [maxAge, setMaxAge] = useState('');
 
-    //Varför funkar det att skicka setState till mina komponenter och att ändringarna ändå görs?
     return (
         <>
             <div>
@@ -29,7 +28,7 @@ const FriendsPage = ({friends, setFriends, fetchData, deleteFriend}) => {
 
             <FriendsList friends={friends} maxAge={maxAge}
                 minAge={minAge} gender={gender}
-                deleteFriend={deleteFriend}
+                deleteFriend={deleteFriend} fromPage={"FriendsPage"}
             />
 
             <button onClick={() => {
