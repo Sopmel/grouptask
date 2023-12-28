@@ -109,6 +109,10 @@ function App() {
           <Link className="header-text" to="/friends">
             Friends
           </Link>
+          <hr />
+          <Link className="header-text" to="/">
+            Home
+          </Link>
         </div>
       </div>
       <Routes>
