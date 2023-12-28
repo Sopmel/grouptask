@@ -4,7 +4,7 @@ import style from "./FriendsStyle.module.css"
 const FriendsList = ({friends, maxAge, minAge, gender, deleteFriend}) => {
     return (
         <div className={style.FriendsList}>
-            <p>{friends.length} Friends</p>
+            <p className='underrubrik-text'>{friends.length} Friends</p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center"}}>
                 {friends
                     .filter(user => {
