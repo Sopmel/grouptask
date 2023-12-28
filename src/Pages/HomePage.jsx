@@ -6,79 +6,40 @@ import TopHabits from '../Components/TopHabits';
 import TaskCard from '../Components/TaskCard';
 import TopTasks from '../Components/TopTasks';
 
-function HomePage() {
+function HomePage(props) {
   const [latestFriends, setLatestFriends] = useState([]);
-  const [ topHabits, setTopHabits ] = useState([]);
-  const [latestTasks, setLatestTasks] = useState([]);
- 
+  const [topHabits, setTopHabits] = useState([]);
 
-  const location = useLocation();
-  console.log(location.state);
-<<<<<<< HEAD
-  
-  useEffect(() => {
-    if (location.state && location.state.taskList) {
-      renderFiveLatestTasks(location.state.taskList);
-    }
-  }, [location.state]);
-   
-  useEffect(()=>{
-    if (location.state && location.state.FriendsList){
-    renderFiveFriends(location.state.FriendsList)}
-  }, [location.state]);
-
-  const renderFiveLatestTasks = (tasks) => {
-    let sortedTasks = [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    let slicedTasks = sortedTasks.slice(0, 5);
-    setLatestTasks(slicedTasks);
-    console.log( latestTasks)
-  };
-
-  // useEffect(() => {
-  //   // Check if 'friends' is available in location state
-  //   if (location.state && location.state.friends) {
-  //     renderFiveFriends(location.state.friends);
-  //     console.log(location.state.friends);
-  //   }
-  
-  //   // Check if 'habits' is available in location state
-  //   if (location.state && location.state.habits) {
-  //     renderTopHabits(location.state.habits);
-  //   }
-  // }, [location.state]);
 
   const renderFiveFriends = (arr) => {
-    let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
+    let sortedArray = [...arr].sort((a, b) => { return a.id - b.id })
+    let slicedArray = sortedArray.slice(Math.max(arr.length - 5, 0))
     setLatestFriends(slicedArray)
-  } 
+  }
 
-  // HABITS
-  useEffect(()=>{
-    if(location.state && location.state.habits){
-    renderTopHabits(location.state.habits)}
-    
-  }, [location.state])
+  useEffect(() => {
+    renderFiveFriends(props.friends)
+    renderTopHabits(props.habitsList)
+  }, [])
 
   const renderTopHabits = (topH) => {
-    console.log(topH);
-    let slicedArrayH = topH.slice(Math.max(topH.length - 3, 0))
+    let sortedArray = [...topH].sort((a, b) => { return a.prioritet - b.prioritet })
+    let slicedArrayH = sortedArray.slice(Math.max(topH.length - 3, 0))
     setTopHabits(slicedArrayH);
   } 
- 
 
   return (
     <>
-      <div style={{backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem"}}>
-        <hr />
-      <p className='underrubrik-text'>5 vänner</p>
-      <FriendsList friends={latestFriends} />
-      <Link className='link-style' to="/friends" state={{ friends: renderFiveFriends }} >
+      <div style={{ backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem" }}>
+      <hr />
+        <FriendsList friends={latestFriends} fromPage={"HomePage"} />
+        <Link className='link-style' to="/friends">
         see all Friends
       </Link>
-      <hr />
-      <p className='underrubrik-text'>Top 3 Habits</p>
-      <TopHabits habits={topHabits}/>
-      <Link className='link-style' to="/habits" state={{habits: renderTopHabits}} >
+        <hr />
+        <p className='underrubrik-text'>Top 3 Habits</p>
+        <TopHabits habits={topHabits} />
+        <Link className='link-style' to="/habits" >
         see all Habits
       </Link>
       </div>
