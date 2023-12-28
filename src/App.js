@@ -9,7 +9,51 @@ import TaskPage from "./Pages/TasksPage";
 function App() {
 
   const [friends, setFriends] = useState([])
+  let [habitsList, setHabitsList] = useState([
+    {
+      title: "Diska varje kväll",
+      streaks: 3,
+      prioritet: 6,
+      //id?
+    },
+    {
+      title: "Bädda sängen varje dag",
+      streaks: 7,
+      prioritet: 10,
+      //id?
+    },
+    {
+      title: "Läsa en bok 30 minuter",
+      streaks: 5,
+      prioritet: 5,
+      //id?
+    }]);
 
+    //Habits
+  const addNewHabit = (newTitle, newStreak, newPrioritet) => {
+    setHabitsList([...habitsList,
+    {
+      title: `${newTitle}`,
+      streaks: `${newStreak}`,
+      prioritet: `${newPrioritet}`,
+    },
+    ])
+  }
+
+  const changeStreak = (index, value) => {
+    let updatedHabitsList = [...habitsList]
+    updatedHabitsList[index].streaks = parseInt(updatedHabitsList[index].streaks, 10) + value;
+    setHabitsList(updatedHabitsList);
+    console.log()
+  }
+
+  const resetStreak = (index) => {
+    const updatedHabitsList = [...habitsList];
+    updatedHabitsList[index].streaks = 0;
+    setHabitsList(updatedHabitsList);
+  };
+
+  //Friends
   const fetchData = async (API) => {
     const response = await fetch(API)
     const json = await response.json()
@@ -39,12 +83,13 @@ function App() {
         <Link to="/habits">Habits</Link>
         <Link to="/task">Tasks</Link>
         <Link to="/friends">Friends</Link>
+        <Link to="/">Home</Link>
       </div>
       <Routes>
-        <Route path="/" element={<HomePage friends={friends} />} />
+        <Route path="/" element={<HomePage friends={friends} habitsList={habitsList} />} />
         <Route path="/task" element={<TaskPage />} />
-        <Route path="/habits" element={<HabitsPage />} />
-        <Route path="/friends" element={<FriendsPage friends={friends} setFriends={setFriends} fetchData={fetchData} deleteFriend={deleteFriend}/>} />
+        <Route path="/habits" element={<HabitsPage habitsList={habitsList} setHabitsList={setHabitsList} addNewHabit={addNewHabit} changeStreak={changeStreak} resetStreak={resetStreak} />} />
+        <Route path="/friends" element={<FriendsPage friends={friends} setFriends={setFriends} fetchData={fetchData} deleteFriend={deleteFriend} />} />
       </Routes>
     </div>
   );
