@@ -30,7 +30,7 @@ function HomePage(props) {
     <>
       <div style={{ backgroundColor: "#1c5456", paddingTop: "2px", paddingBottom: "2rem" }}>
       <hr />
-        <FriendsList friends={latestFriends} />
+        <FriendsList friends={latestFriends} fromPage={"HomePage"} />
         <Link className='link-style' to="/friends">
         see all Friends
       </Link>
