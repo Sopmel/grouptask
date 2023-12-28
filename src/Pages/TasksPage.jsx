@@ -1,4 +1,5 @@
 import React, { useState} from "react";
+import { Link, useLocation } from "react-router-dom";
 import TaskCard from "../Components/TaskCard";
 import CompleteTaskCard from "../Components/CompleteTaskCard";
 import NewTask from "../Components/NewTask";
@@ -148,7 +149,8 @@ const handleSave = () => {
     desc: desc,
     time: time,
     category: category,
-    completed: edit !== null ? taskList[edit].completed : false
+    completed: edit !== null ? taskList[edit].completed : false,
+    createdAt: new Date(),
   };
 
   if (edit !== null) {
@@ -162,8 +164,8 @@ const handleSave = () => {
   setTime('');
   setCategory('');
 };
-console.log(taskList)
-console.log(completedTasksList)
+// console.log(taskList)
+
   
 const handleCompleteDelete = (index) => {
   setCompletedTasksList((prevCompletedTasksList) => {
@@ -203,6 +205,7 @@ const handleDelete = (index) => {
         }}
       >
         <h1>Tasks</h1>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "20px"}} >
         <button
           style={{
             backgroundColor: "#1c5456",
@@ -214,6 +217,12 @@ const handleDelete = (index) => {
         >
           Create Task
         </button>
+        <div>
+          <Link style={{ color: "white", textDecoration: "none", borderRadius: "10px", padding: "11px", backgroundColor: "#1c5456", fontSize: "small", border: "1px solid black"}} to="/" state={{ taskList }}>
+           Go to Home Page
+          </Link>
+          </div>
+          </div>
 
         <NewTask   
         showForm={showForm}
@@ -250,6 +259,7 @@ const handleDelete = (index) => {
             <option value={"undefined"}>undefined</option>
       </select>
       </div>
+     
       <TaskList
           taskList={taskList}
           filteredCategory={filteredCategory}

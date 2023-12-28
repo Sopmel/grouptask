@@ -1,6 +1,6 @@
 
 
-const TaskCard = ({ taskObj, index, onDelete, onEdit, onCheckboxChange }) => {
+const TaskCard = ({ taskObj, index, onDelete, onEdit, onCheckboxChange, createdAt}) => {
   return (
     <div style={{ backgroundColor: taskObj.completed ? "#aafca1" : "#ffffff", padding: "10px", borderRadius: "10px", width: "20%" }}>
       <div style={{ display: "flex", gap: "0.5rem", marginLeft: "10px" }}>
@@ -17,6 +17,7 @@ const TaskCard = ({ taskObj, index, onDelete, onEdit, onCheckboxChange }) => {
       <p>Description: {taskObj.desc}</p>
       <p>Time: {taskObj.time} hrs</p>
       <p>Category: {taskObj.category}</p>
+      
 
       <div style={{ display: "flex", gap: "1rem", marginLeft: "20px" }}>
         <button onClick={() => onEdit(index)}>Edit</button>

@@ -3,19 +3,35 @@ import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import FriendsList from '../Components/FriendsList';
 import TopHabits from '../Components/TopHabits';
+import TaskCard from '../Components/TaskCard';
+import TopTasks from '../Components/TopTasks';
 
 function HomePage() {
   const [latestFriends, setLatestFriends] = useState([]);
   const [ topHabits, setTopHabits ] = useState([]);
+  const [latestTasks, setLatestTasks] = useState([]);
  
+
   const location = useLocation();
   console.log(location.state);
   
+  useEffect(() => {
+    if (location.state && location.state.taskList) {
+      renderFiveLatestTasks(location.state.taskList);
+    }
+  }, [location.state]);
    
   useEffect(()=>{
-    console.log(location.state)
-    renderFiveFriends(location.state)
-  }, [])
+    if (location.state && location.state.FriendsList){
+    renderFiveFriends(location.state.FriendsList)}
+  }, [location.state]);
+
+  const renderFiveLatestTasks = (tasks) => {
+    let sortedTasks = [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    let slicedTasks = sortedTasks.slice(0, 5);
+    setLatestTasks(slicedTasks);
+    console.log( latestTasks)
+  };
 
   const renderFiveFriends = (arr) => {
     let slicedArray = arr.slice(Math.max(arr.length - 5, 0))
@@ -24,9 +40,10 @@ function HomePage() {
 
   // HABITS
   useEffect(()=>{
+    if(location.state && location.state.habits){
+    renderTopHabits(location.state.habits)}
     
-    renderTopHabits(location.state)
-  }, [])
+  }, [location.state])
 
   const renderTopHabits = (topH) => {
     console.log(topH);
@@ -49,6 +66,14 @@ function HomePage() {
         see all Habits
       </Link>
       </div>
+
+      <p> Recently added Tasks</p>
+      <Link to="/task" state={{ taskList: renderFiveLatestTasks }}>
+          See All Tasks
+        </Link>
+      <TopTasks tasks={latestTasks} />
+
+      
     </>
   )
 }
