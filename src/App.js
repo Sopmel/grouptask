@@ -9,6 +9,10 @@ import TaskPage from "./Pages/TasksPage";
 function App() {
 
   const [friends, setFriends] = useState([])
+  const [taskList, setTaskList] = useState(() => {
+    const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
+    return storedTaskList || [];
+  });
   let [habitsList, setHabitsList] = useState([
     {
       title: "Diska varje kväll",
@@ -116,8 +120,8 @@ function App() {
         </div>
       </div>
       <Routes>
-        <Route path="/" element={<HomePage friends={friends} habitsList={habitsList} />} />
-        <Route path="/task" element={<TaskPage />} />
+        <Route path="/" element={<HomePage friends={friends} habitsList={habitsList} taskList={taskList} />} />
+        <Route path="/task" element={<TaskPage taskList={taskList} setTaskList={setTaskList} />} />
         <Route path="/habits" element={<HabitsPage habitsList={habitsList} setHabitsList={setHabitsList} addNewHabit={addNewHabit} changeStreak={changeStreak} resetStreak={resetStreak} />} />
         <Route path="/friends" element={<FriendsPage friends={friends} setFriends={setFriends} fetchData={fetchData} deleteFriend={deleteFriend} />} />
       </Routes>
