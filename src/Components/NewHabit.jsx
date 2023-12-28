@@ -25,7 +25,7 @@ function NewHabit({ addNewHabit }) {
     <div style={{
       display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"
     }}>
-      <h2>New Habit</h2>
+      <h2 className='page-header'>New Habit</h2>
       <div style={{ display: "flex", gap: "0.5rem", flexDirection: "column", maxWidth: "30%" }}>
         <div style={{ display: "flex", marginBottom: "10px" }}>
           <label style={{ width: "100px" }}>Title:</label>

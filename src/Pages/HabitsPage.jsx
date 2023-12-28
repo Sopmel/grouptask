@@ -32,9 +32,9 @@ function HabitsPage({ habitsList, setHabitsList, addNewHabit, changeStreak, rese
             <div style={{ backgroundColor: "#ffffff", paddingBottom: "1rem" }}>
                 <NewHabit addNewHabit={addNewHabit} />
             </div>
-            <h1 style={{ color: "#ffffff" }}>Habit List</h1>
+            <p className='underrubrik-text'>Habit List</p>
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center", paddingBottom: "2rem" }}>
             <select name="sortingCriteria" id="sortingCriteria"
             onChange={e => sortHabits(e.target.value)}>
                 <option value="Prio asc">Prioritet hög-låg</option>
