@@ -35,14 +35,13 @@ const NewTask = (props) => {
     showForm && (
       <form 
         style={{
-          backgroundColor: "#1c5456",
-          color: "#ffffff",
+          backgroundColor: "white",
+          color: "#1c5456",
           padding: "10px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          border: "1px solid #1c5456",
           marginTop: "10px"
         }}
       >
