@@ -6,7 +6,7 @@ import NewTask from "../Components/NewTask";
 import TaskList from "../Components/TaskList";
 // import UseLocalStorage from "../Components/UseLocalStorage";
 
-const TaskPage = () => {
+const TaskPage = ({taskList, setTaskList}) => {
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -15,10 +15,10 @@ const TaskPage = () => {
   const [filteredCategory, setFilteredCategory] = useState("all");
   const [edit, setEdit] = useState(null);
   const [editedTask, setEditedTask] = useState(null);
-  const [taskList, setTaskList] = useState(() => {
-    const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
-    return storedTaskList || [];
-  });
+  // const [taskList, setTaskList] = useState(() => {
+  //   const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
+  //   return storedTaskList || [];
+  // });
   const [completedTasksList, setCompletedTasksList] = useState(() => {
     const storedCompletedTasksList = JSON.parse(localStorage.getItem("completedTasksList"));
     return storedCompletedTasksList || [];
@@ -79,6 +79,19 @@ const TaskPage = () => {
       return updatedCompletedTasksList;
     });
   };
+
+  // const addNewTask = (newTitle, newDesc, newTime, newCategory) => {
+  //   setTaskList([...taskList,
+  //   {
+  //     title: newTitle,
+  //     desc: newDesc,
+  //     time: newTime,
+  //     category: newCategory,
+  //     completed: edit !== null ? taskList[edit].completed : false,
+  //     createdAt: new Date(),
+  //   },
+  //   ])
+  // }
 
   const handleChange = (e) => {
     const { name, value } = e.target;

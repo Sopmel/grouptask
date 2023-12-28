@@ -3,18 +3,18 @@ import React, { useState, useEffect } from "react";
 const RandomTask = ({ onRandomTask }) => {
   const [random, setRandom] = useState(null);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-        let response = await fetch("https://www.boredapi.com/api/activity/");
-        let json = await response.json();
-        console.log(json);
-        setRandom(json);
-        onRandomTask(json); 
+  // useEffect(() => {
+  //   const fetchTask = async () => {
+  //       let response = await fetch("https://www.boredapi.com/api/activity/");
+  //       let json = await response.json();
+  //       console.log(json);
+  //       setRandom(json);
+  //       onRandomTask(json); 
      
-    };
+  //   };
 
-    fetchTask();
-  }, [onRandomTask]);
+  //   fetchTask();
+  // }, [onRandomTask]);
   console.log(random)
 
   return (

@@ -9,6 +9,7 @@ import TopTasks from '../Components/TopTasks';
 function HomePage(props) {
   const [latestFriends, setLatestFriends] = useState([]);
   const [topHabits, setTopHabits] = useState([]);
+  const [latestTasks, setLatestTasks] = useState([]);
 
 
   const renderFiveFriends = (arr) => {
@@ -20,6 +21,7 @@ function HomePage(props) {
   useEffect(() => {
     renderFiveFriends(props.friends)
     renderTopHabits(props.habitsList)
+    renderFiveLatestTasks(props.taskList);
   }, [])
 
   const renderTopHabits = (topH) => {
@@ -27,6 +29,13 @@ function HomePage(props) {
     let slicedArrayH = sortedArray.slice(Math.max(topH.length - 3, 0))
     setTopHabits(slicedArrayH);
   } 
+
+  const renderFiveLatestTasks = (tasks) => {
+    let sortedTasks = [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    let slicedTasks = sortedTasks.slice(0, 5);
+    setLatestTasks(slicedTasks);
+    console.log( latestTasks)
+  };
 
   return (
     <>
