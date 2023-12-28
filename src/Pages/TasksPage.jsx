@@ -15,10 +15,6 @@ const TaskPage = ({taskList, setTaskList}) => {
   const [filteredCategory, setFilteredCategory] = useState("all");
   const [edit, setEdit] = useState(null);
   const [editedTask, setEditedTask] = useState(null);
-  // const [taskList, setTaskList] = useState(() => {
-  //   const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
-  //   return storedTaskList || [];
-  // });
   const [completedTasksList, setCompletedTasksList] = useState(() => {
     const storedCompletedTasksList = JSON.parse(localStorage.getItem("completedTasksList"));
     return storedCompletedTasksList || [];
@@ -80,19 +76,6 @@ const TaskPage = ({taskList, setTaskList}) => {
     });
   };
 
-  // const addNewTask = (newTitle, newDesc, newTime, newCategory) => {
-  //   setTaskList([...taskList,
-  //   {
-  //     title: newTitle,
-  //     desc: newDesc,
-  //     time: newTime,
-  //     category: newCategory,
-  //     completed: edit !== null ? taskList[edit].completed : false,
-  //     createdAt: new Date(),
-  //   },
-  //   ])
-  // }
-
   const handleChange = (e) => {
     const { name, value } = e.target;
   
@@ -106,33 +89,6 @@ const TaskPage = ({taskList, setTaskList}) => {
       setCategory(value);
     }
   };
-
-  const saveTask = (taskObj) => {
-    if (edit !== null) {
-      setTaskList((prevTaskList) => {
-        const updatedTaskList = [...prevTaskList];
-        updatedTaskList[edit] = taskObj;
-        localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
-        return updatedTaskList;
-      });
-    
-    setEdit(null);
-  } else {
-    setTaskList((prevTaskList) => {
-      const updatedTaskList = [...prevTaskList, taskObj];
-      localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
-      return updatedTaskList;
-      
-    })
-    
-  }
-  
-  
-  setTitle('');
-  setDesc('');
-  setTime('');
-  setCategory('');
-};
 
 
 const handleEdit = (index) => {
@@ -158,26 +114,33 @@ const handleCategoryChange = (e) => {
 
 const handleSave = () => {
   const taskObj = {
-    title: title,
-    desc: desc,
-    time: time,
-    category: category,
+    title,
+    desc,
+    time,
+    category,
     completed: edit !== null ? taskList[edit].completed : false,
     createdAt: new Date(),
   };
 
-  if (edit !== null) {
-    saveTask(taskObj, edit);
-  } else {
-    saveTask(taskObj);
-  }
+  setTaskList((prevTaskList) => {
+    const updatedTaskList = [...prevTaskList];
 
-  setTitle('');
-  setDesc('');
-  setTime('');
-  setCategory('');
+    if (edit !== null) {
+      updatedTaskList[edit] = taskObj;
+    } else {
+      updatedTaskList.push(taskObj);
+    }
+
+    localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
+    setTitle('');
+    setDesc('');
+    setTime('');
+    setCategory('');
+    setEdit(null);
+
+    return updatedTaskList;
+  });
 };
-// console.log(taskList)
 
   
 const handleCompleteDelete = (index) => {
@@ -214,7 +177,8 @@ const handleDelete = (index) => {
           paddingTop: "20px",
           paddingBottom: "20px",
           marginTop: "10px",
-          border: "1px solid #1c5456"
+          color: "#1c5456"
+         
         }}
       >
         <h1>Tasks</h1>

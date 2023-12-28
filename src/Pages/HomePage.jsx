@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import FriendsList from '../Components/FriendsList';
 import TopHabits from '../Components/TopHabits';
-import TaskCard from '../Components/TaskCard';
 import TopTasks from '../Components/TopTasks';
 
 function HomePage(props) {
@@ -16,7 +15,6 @@ function HomePage(props) {
     let sortedTasks = [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     let slicedTasks = sortedTasks.slice(0, 5);
     setLatestTasks(slicedTasks);
-    console.log( latestTasks)
   };
 
   const renderFiveFriends = (arr) => {
@@ -51,13 +49,15 @@ function HomePage(props) {
         <Link className='link-style' to="/habits" >
         see all Habits
       </Link>
-      </div>
-
-      <p> Recently added Tasks</p>
-      <Link to="/task" state={{ taskList: renderFiveLatestTasks }}>
+      <hr />
+      <p className='underrubrik-text'> Recently added Tasks</p>
+      <Link className='link-style' to="/task" state={{ taskList: renderFiveLatestTasks }}>
           See All Tasks
         </Link>
       <TopTasks tasks={latestTasks} />
+      </div>
+
+
 
 
       
