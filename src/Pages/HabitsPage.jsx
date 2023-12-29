@@ -63,6 +63,8 @@ function HabitsPage({ habitsList, setHabitsList, addNewHabit, changeStreak, rese
                     )
                 })
                 }</div>
+                 <Link className='link-style' to="/" >
+        Back to home</Link>
         </div>
 
     )
