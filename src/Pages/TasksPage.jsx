@@ -1,11 +1,12 @@
 import React, { useState} from "react";
+import { Link, useLocation } from "react-router-dom";
 import TaskCard from "../Components/TaskCard";
 import CompleteTaskCard from "../Components/CompleteTaskCard";
 import NewTask from "../Components/NewTask";
 import TaskList from "../Components/TaskList";
 // import UseLocalStorage from "../Components/UseLocalStorage";
 
-const TaskPage = () => {
+const TaskPage = ({taskList, setTaskList}) => {
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -14,10 +15,6 @@ const TaskPage = () => {
   const [filteredCategory, setFilteredCategory] = useState("all");
   const [edit, setEdit] = useState(null);
   const [editedTask, setEditedTask] = useState(null);
-  const [taskList, setTaskList] = useState(() => {
-    const storedTaskList = JSON.parse(localStorage.getItem("taskList"));
-    return storedTaskList || [];
-  });
   const [completedTasksList, setCompletedTasksList] = useState(() => {
     const storedCompletedTasksList = JSON.parse(localStorage.getItem("completedTasksList"));
     return storedCompletedTasksList || [];
@@ -93,33 +90,6 @@ const TaskPage = () => {
     }
   };
 
-  const saveTask = (taskObj) => {
-    if (edit !== null) {
-      setTaskList((prevTaskList) => {
-        const updatedTaskList = [...prevTaskList];
-        updatedTaskList[edit] = taskObj;
-        localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
-        return updatedTaskList;
-      });
-    
-    setEdit(null);
-  } else {
-    setTaskList((prevTaskList) => {
-      const updatedTaskList = [...prevTaskList, taskObj];
-      localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
-      return updatedTaskList;
-      
-    })
-    
-  }
-  
-  
-  setTitle('');
-  setDesc('');
-  setTime('');
-  setCategory('');
-};
-
 
 const handleEdit = (index) => {
   const taskToEdit = taskList[index]
@@ -144,26 +114,34 @@ const handleCategoryChange = (e) => {
 
 const handleSave = () => {
   const taskObj = {
-    title: title,
-    desc: desc,
-    time: time,
-    category: category,
-    completed: edit !== null ? taskList[edit].completed : false
+    title,
+    desc,
+    time,
+    category,
+    completed: edit !== null ? taskList[edit].completed : false,
+    createdAt: new Date(),
   };
 
-  if (edit !== null) {
-    saveTask(taskObj, edit);
-  } else {
-    saveTask(taskObj);
-  }
+  setTaskList((prevTaskList) => {
+    const updatedTaskList = [...prevTaskList];
 
-  setTitle('');
-  setDesc('');
-  setTime('');
-  setCategory('');
+    if (edit !== null) {
+      updatedTaskList[edit] = taskObj;
+    } else {
+      updatedTaskList.push(taskObj);
+    }
+
+    localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
+    setTitle('');
+    setDesc('');
+    setTime('');
+    setCategory('');
+    setEdit(null);
+
+    return updatedTaskList;
+  });
 };
-console.log(taskList)
-console.log(completedTasksList)
+
   
 const handleCompleteDelete = (index) => {
   setCompletedTasksList((prevCompletedTasksList) => {
@@ -199,10 +177,12 @@ const handleDelete = (index) => {
           paddingTop: "20px",
           paddingBottom: "20px",
           marginTop: "10px",
-          border: "1px solid #1c5456"
+          color: "#1c5456"
+         
         }}
       >
         <h1>Tasks</h1>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "20px"}} >
         <button
           style={{
             backgroundColor: "#1c5456",
@@ -214,6 +194,12 @@ const handleDelete = (index) => {
         >
           Create Task
         </button>
+        <div>
+          <Link style={{ color: "white", textDecoration: "none", borderRadius: "10px", padding: "11px", backgroundColor: "#1c5456", fontSize: "small", border: "1px solid black"}} to="/" state={{ taskList }}>
+           Go to Home Page
+          </Link>
+          </div>
+          </div>
 
         <NewTask   
         showForm={showForm}
@@ -250,6 +236,7 @@ const handleDelete = (index) => {
             <option value={"undefined"}>undefined</option>
       </select>
       </div>
+     
       <TaskList
           taskList={taskList}
           filteredCategory={filteredCategory}

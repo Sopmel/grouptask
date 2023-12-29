@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  /* color: white; */
 }
 
 .App-link {
@@ -38,4 +38,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header-text {
+  color: #ffffff;
+  font-size: 35px;
+  text-decoration: none;
+  font-family: 'Playfair Display', serif;;
+}
+
+.underrubrik-text {
+  color: #ffffff;
+  font-size: 26px;
+  font-family: 'Playfair Display', serif;;
+}
+
+.page-header {
+  color: #1c5456;
+  font-size: 27px;
+  font-family: 'Playfair Display', serif;;
+}
+
+.link-style {
+  color: #ffffff;
+
 }

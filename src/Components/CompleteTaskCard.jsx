@@ -3,7 +3,7 @@ import React from "react";
 const CompleteTaskCard = ({ taskObj, index, onCompleteDelete, onCheckboxChange }) => {
     return (
         <div style={{ backgroundColor: "#aafca1", padding: "10px", borderRadius: "10px", width: "20%" }}>
-        <div style={{ display: "flex", gap: "0.5rem", marginLeft: "10px" }}>
+        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
           <input
             type="checkbox"
             checked
@@ -18,7 +18,7 @@ const CompleteTaskCard = ({ taskObj, index, onCompleteDelete, onCheckboxChange }
         <p>Time: {taskObj.time} hrs</p>
         <p>Category: {taskObj.category}</p>
   
-        <div style={{ display: "flex", gap: "1rem", marginLeft: "20px" }}>
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
           <button onClick={() => onCompleteDelete(index)}>Delete</button>
         </div>
       </div>
