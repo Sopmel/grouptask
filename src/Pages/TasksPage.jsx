@@ -4,7 +4,7 @@ import TaskCard from "../Components/TaskCard";
 import CompleteTaskCard from "../Components/CompleteTaskCard";
 import NewTask from "../Components/NewTask";
 import TaskList from "../Components/TaskList";
-// import UseLocalStorage from "../Components/UseLocalStorage";
+
 
 const TaskPage = ({taskList, setTaskList}) => {
   const [showForm, setShowForm] = useState(false);
@@ -22,20 +22,14 @@ const TaskPage = ({taskList, setTaskList}) => {
 
   const handleCheckboxChecked = (index) => {
     setTaskList((prevTaskList) => {
-      const updatedTaskList = [...prevTaskList];
-      const taskToMove = updatedTaskList[index];
+      const taskToMove = prevTaskList[index];
+      const updatedTaskList = prevTaskList.filter((_, i) => i !== index);
   
-      // tar bort
-      updatedTaskList.splice(index, 1);
-  
-      //local storage
       localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
   
       setCompletedTasksList((prevCompletedTasksList) => {
-        const isTaskAlreadyInList = prevCompletedTasksList.some((task) => task.title === taskToMove.title);
-  
-        // kollar efte kopior först
-        if (!isTaskAlreadyInList) {
+        //jämför listorna för att se om det finns kopior.
+        if (!prevCompletedTasksList.some((task) => task.title === taskToMove.title)) {
           const updatedCompletedTasksList = [...prevCompletedTasksList, taskToMove];
           localStorage.setItem("completedTasksList", JSON.stringify(updatedCompletedTasksList));
           return updatedCompletedTasksList;
@@ -50,20 +44,13 @@ const TaskPage = ({taskList, setTaskList}) => {
   
   const handleCheckboxUnchecked = (index) => {
     setCompletedTasksList((prevCompletedTasksList) => {
-      const updatedCompletedTasksList = [...prevCompletedTasksList];
-      const taskToMoveBack = updatedCompletedTasksList[index];
+      const taskToMoveBack = prevCompletedTasksList[index];
+      const updatedCompletedTasksList = prevCompletedTasksList.filter((_, i) => i !== index);
   
-      
-      updatedCompletedTasksList.splice(index, 1);
-  
-      //local storage
       localStorage.setItem("completedTasksList", JSON.stringify(updatedCompletedTasksList));
   
       setTaskList((prevTaskList) => {
-        const isTaskAlreadyInList = prevTaskList.some((task) => task.title === taskToMoveBack.title);
-  
-        // kollar efter kopior
-        if (!isTaskAlreadyInList) {
+        if (!prevTaskList.some((task) => task.title === taskToMoveBack.title)) {
           const updatedTaskList = [...prevTaskList, taskToMoveBack];
           localStorage.setItem("taskList", JSON.stringify(updatedTaskList));
           return updatedTaskList;
@@ -75,7 +62,6 @@ const TaskPage = ({taskList, setTaskList}) => {
       return updatedCompletedTasksList;
     });
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
   
