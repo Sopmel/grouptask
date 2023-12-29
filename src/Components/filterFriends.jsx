@@ -1,10 +1,9 @@
-import style from "./FriendsStyle.module.css"
+// import style from "./FriendsStyle.module.css"
 
 const FilterFriends = (props) => {
 
     const { friends, minAge, setMinAge, maxAge, setMaxAge, gender, setGender } = props
 
-    //Varning, något om att ett infinite värde inte kan användas? 
     const minAgeInArray = Math.min(...friends.map(user => user.age));
     const maxAgeInArray = Math.max(...friends.map(user => user.age))
 

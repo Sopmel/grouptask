@@ -1,71 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&family=Poppins:wght@200;500;800&family=Roboto:wght@300;500;700;900&display=swap');
-*{
+
+* {
     font-family: "Manrope";
 }
 
-
-.friendCard{ 
-    background: white;
-    padding: 10px; 
-    border-radius: 10px;
-    Width: 15% 20% 25%;
+.HomePageTopHalf {
+    background-color: green;
 }
 
-.imgFriend{
-    border-radius: 50%;
-}
-
-
-.FriendsList{
+.FriendsList {
     background-color: #1c5456;
+    padding: 15px 0;
 }
 
-
-.filterAndSortContainer{
+.FriendsProfileContainer {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
-.filterContainer{
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
 }
-
-/* header ul{
-    display: flex;
-    justify-content: center;
-    gap: 5%;
-} */
-
-/* .listsContainer{
-    height: 100dvh;
-    background-color: peachpuff;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1.6fr 1fr;
-}
-
-.habitsDiv{
-    background-color: cornflowerblue;
-    margin: 10px 5px 5px 10px
-}
-
-.taskDiv{
-    background-color: darkslateblue;
-    margin: 10px 10px 5px 5px;
-}
-
-.friendsDiv{
-    background-color: forestgreen;
-    grid-row: 2;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    margin: 5px 10px 10px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-} */

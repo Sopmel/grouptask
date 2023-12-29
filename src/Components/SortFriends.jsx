@@ -1,4 +1,4 @@
-import style from "./FriendsStyle.module.css"
+// import style from "./FriendsStyle.module.css"
 
 const SortFriends = ({friends, setFriends}) => {
 

@@ -2,7 +2,6 @@ import FilterFriends from "../Components/filterFriends"
 import FriendsList from "../Components/FriendsList"
 import SortFriends from "../Components/SortFriends"
 import UseLocalStorage from "../Components/UseLocalStorage"
-import style from "../Components/FriendsStyle.module.css"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -16,7 +15,7 @@ const FriendsPage = ({friends, setFriends, fetchData, deleteFriend}) => {
 
     return (
         <>
-            <div>
+            <div style={{padding: "15px"}}>
                 <FilterFriends friends={friends} 
                     maxAge={maxAge} setMaxAge={setMaxAge}
                     minAge={minAge} setMinAge={setMinAge}
@@ -26,15 +25,16 @@ const FriendsPage = ({friends, setFriends, fetchData, deleteFriend}) => {
                 <SortFriends friends={friends} setFriends={setFriends} /> 
             </div>
 
-            <FriendsList friends={friends} maxAge={maxAge}
-                minAge={minAge} gender={gender}
+            <div>
+              <FriendsList friends={friends} maxAge={maxAge}
+                minAge={minAge} gender={gender} fetchData={fetchData}
                 deleteFriend={deleteFriend} fromPage={"FriendsPage"}
             />
-
+                       </div> 
             <button onClick={() => {
                 fetchData("https://randomuser.me/api")
             }}
-            >Add Friend</button>
+            >Add Friend</button>  
             <Link to="/" state={friends}>Home Page</Link>
         </>
     )

@@ -1,0 +1,10 @@
+.friendCard{ 
+    background: white;
+    padding: 10px; 
+    border-radius: 10px;
+    Width: 15%;
+}
+
+.imgFriend{
+    border-radius: 50%;
+}

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import style from "./FriendsStyle.module.css"
+import style from "./FriendsProfile.module.css"
 
 const FriendsProfile = ({ user, index, deleteFriend, fromPage }) => {
     const [imgClicked, setImgClicked] = useState(false)
