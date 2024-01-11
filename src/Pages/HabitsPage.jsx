@@ -1,10 +1,12 @@
 import React from 'react'
 import NewHabit from '../Components/NewHabit';
-import { useState, useEffect } from "react";
-import TopHabits from '../Components/TopHabits';
-import { Link } from "react-router-dom";
+import { useDataContext } from '../DataContext';
+// import { useState, useEffect } from "react";
+// import TopHabits from '../Components/TopHabits';
+// import { Link } from "react-router-dom";
 
-function HabitsPage({ habitsList, setHabitsList, addNewHabit, changeStreak, resetStreak }) {
+function HabitsPage() {
+    const {habitsList, setHabitsList} = useDataContext();
 
     const sortHabits = (key) => {
         const sortedList = [...habitsList].sort((a, b) => {
@@ -26,6 +28,31 @@ function HabitsPage({ habitsList, setHabitsList, addNewHabit, changeStreak, rese
         })
         setHabitsList(sortedList)
     }
+
+    const addNewHabit = (newTitle, newStreak, newPrioritet) => {
+        setHabitsList([
+          ...habitsList,
+          {
+            title: `${newTitle}`,
+            streaks: `${newStreak}`,
+            prioritet: `${newPrioritet}`,
+          },
+        ]);
+      };
+    
+      const changeStreak = (index, value) => {
+        let updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks =
+          parseInt(updatedHabitsList[index].streaks, 10) + value;
+        setHabitsList(updatedHabitsList);
+        console.log();
+      };
+    
+      const resetStreak = (index) => {
+        const updatedHabitsList = [...habitsList];
+        updatedHabitsList[index].streaks = 0;
+        setHabitsList(updatedHabitsList);
+      };
 
     return (
         <div style={{ backgroundColor: "#1c5456", paddingBottom: "2rem" }}>

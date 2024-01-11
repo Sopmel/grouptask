@@ -1,8 +1,16 @@
 import { useState } from "react"
 import style from "./FriendsProfile.module.css"
+import { useDataContext } from "../DataContext"
 
-const FriendsProfile = ({ user, index, deleteFriend, fromPage }) => {
+const FriendsProfile = ({ user, index, fromPage }) => {
+    const { friends, setFriends } = useDataContext();
     const [imgClicked, setImgClicked] = useState(false)
+
+    const deleteFriend = (index) => {
+        let newArr = [...friends];
+        newArr.splice(index, 1);
+        setFriends(newArr);
+    };
 
     return (
         <div className={style.friendCard}>

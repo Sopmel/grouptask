@@ -5,8 +5,11 @@ import CompleteTaskCard from "../Components/CompleteTaskCard";
 import NewTask from "../Components/NewTask";
 import TaskList from "../Components/TaskList";
 // import UseLocalStorage from "../Components/UseLocalStorage";
+import { useDataContext } from "../DataContext";
 
-const TaskPage = ({taskList, setTaskList}) => {
+const TaskPage = () => {
+  const {taskList, setTaskList} = useDataContext();
+
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');

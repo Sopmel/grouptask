@@ -1,7 +1,8 @@
 import FriendsProfile from "./FriendsProfile"
 import style from "./FriendsStyle.module.css"
 
-const FriendsList = ({friends, maxAge, minAge, gender, deleteFriend, fromPage}) => {
+const FriendsList = ({friends, fromPage, maxAge, minAge, gender}) => {
+
     return (
         <div className={fromPage === "FriendsPage" ? style.FriendsList : style.HomePageList }>
             <p className='underrubrik-text'>{friends.length} Friends</p>
@@ -15,8 +16,8 @@ const FriendsList = ({friends, maxAge, minAge, gender, deleteFriend, fromPage}) 
                     })
                     .map((user, index) => {
                         return (
-                            <FriendsProfile key={index} user={user} index={index} 
-                                deleteFriend={deleteFriend} fromPage={fromPage}
+                            <FriendsProfile key={index} user={user} 
+                            index={index} fromPage={fromPage}
                             />
                         )
                     })}

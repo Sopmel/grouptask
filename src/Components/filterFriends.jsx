@@ -1,8 +1,9 @@
 // import style from "./FriendsStyle.module.css"
+import { useDataContext } from "../DataContext";
 
-const FilterFriends = (props) => {
+const FilterFriends = ({ minAge, setMinAge,  maxAge, setMaxAge, gender, setGender }) => {
 
-    const { friends, minAge, setMinAge, maxAge, setMaxAge, gender, setGender } = props
+    const { friends } = useDataContext();
 
     const minAgeInArray = Math.min(...friends.map(user => user.age));
     const maxAgeInArray = Math.max(...friends.map(user => user.age))

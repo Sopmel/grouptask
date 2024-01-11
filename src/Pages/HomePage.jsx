@@ -1,11 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, } from "react-router-dom"
+import { useDataContext } from '../DataContext';
 import FriendsList from '../Components/FriendsList';
 import TopHabits from '../Components/TopHabits';
 import TopTasks from '../Components/TopTasks';
 
-function HomePage(props) {
+function HomePage() {
+  const { taskList, friends, habitsList } = useDataContext();
+
   const [latestFriends, setLatestFriends] = useState([]);
   const [topHabits, setTopHabits] = useState([]);
   const [latestTasks, setLatestTasks] = useState([]);
@@ -24,9 +27,9 @@ function HomePage(props) {
   }
 
   useEffect(() => {
-    renderFiveFriends(props.friends)
-    renderTopHabits(props.habitsList)
-    renderFiveLatestTasks(props.taskList);
+    renderFiveFriends(friends)
+    renderTopHabits(habitsList)
+    renderFiveLatestTasks(taskList);
   }, [])
 
   const renderTopHabits = (topH) => {
@@ -56,11 +59,6 @@ function HomePage(props) {
         </Link>
       <TopTasks tasks={latestTasks} />
       </div>
-
-
-
-
-      
     </>
   )
 }

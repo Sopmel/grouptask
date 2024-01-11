@@ -1,6 +1,8 @@
 // import style from "./FriendsStyle.module.css"
+import { useDataContext } from "../DataContext"
 
-const SortFriends = ({friends, setFriends}) => {
+const SortFriends = () => {
+    const {friends, setFriends} = useDataContext();
 
     const sortFriends = (key) => {
         const sortedList = [...friends].sort((a, b) => {
